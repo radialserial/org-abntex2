@@ -1,12 +1,13 @@
 #   abntex2.org
 #   Parte do projeto org-abntex2.
 #   Copyright (c) 2019 Lucas Vieira.
+#   Copyright (c) 2024 Natanael Alves Fernandes.
 #   Este arquivo é provido sob a licença BSD 2-Clause (simplificada).
 #   Leia o arquivo LICENSE para mais informações.
 
 # Opções globais do Org-Mode
 #+OPTIONS: toc:nil title:nil
-#+LANGUAGE: bt-br
+#+LANGUAGE: pt-br
 
 
 
@@ -38,56 +39,53 @@
 #+LATEX_CLASS_OPTIONS: [article,12pt,openany,oneside,a4paper,chapter=TITLE,hyphen,english,brazil,chapter=TITLE,sumario=tradicional]
 
 #           Pacotes              #
-#+LATEX_HEADER: \usepackage{times}
-#+LATEX_HEADER: \usepackage[utf8]{inputenc}
-#+LATEX_HEADER: \usepackage[T1]{fontenc}
-#+LATEX_HEADER: \usepackage{color}
-#+LATEX_HEADER: \usepackage{microtype}
-#+LATEX_HEADER: \usepackage{titlesec}
-#+LATEX_HEADER: \usepackage[brazilian, hyperpageref]{backref}
-#+LATEX_HEADER: \usepackage{hyperref}
-#+LATEX_HEADER: \usepackage[alf,abnt-emphasize=bf,abnt-doi=link]{abntex2cite}
-#+LATEX_HEADER: \usepackage{indentfirst}
-#+LATEX_HEADER: \usepackage{listings}
-#+LATEX_HEADER: \usepackage{graphicx}
-# #+LATEX_HEADER: \usepackage{fourier}
-#+LATEX_HEADER: \usepackage{lipsum}
+#+LATEX_HEADER_EXTRA: \usepackage{times}
+#+LATEX_HEADER_EXTRA: \usepackage[utf8]{inputenc}
+#+LATEX_HEADER_EXTRA: \usepackage[T1]{fontenc}
+#+LATEX_HEADER_EXTRA: \usepackage{color}
+#+LATEX_HEADER_EXTRA: \usepackage{microtype}
+#+LATEX_HEADER_EXTRA: \usepackage{titlesec}
+#+LATEX_HEADER_EXTRA: \usepackage{hyperref}
+# #+LATEX_HEADER: \usepackage[alf,abnt-emphasize=bf,abnt-doi=link]{abntex2cite}
+#+LATEX_HEADER_EXTRA: \usepackage[backref=true,citecount=true,sorting=none,urldate=iso]{biblatex}
+#+LATEX_HEADER_EXTRA: \usepackage{indentfirst}
+#+LATEX_HEADER_EXTRA: \usepackage{listings}
+#+LATEX_HEADER_EXTRA: \usepackage{graphicx}
+# #+LATEX_HEADER_EXTRA: \usepackage{fourier}
+#+LATEX_HEADER_EXTRA: \usepackage{lipsum}
 #+LATEX_HEADER: \usepackage{amssymb}
 #+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER_EXTRA: \usepackage[printonlyused]{acronym}
+#+LATEX_HEADER_EXTRA: \usepackage[normalem]{ulem}
+
+
 
 
 
 # Configurações de Fontes #
 
 # Fontes monoespaçadas e bonitas para código
-#+LATEX_HEADER: \lstset{basicstyle=\ttfamily\small,breaklines=true}
+#+LATEX_HEADER_EXTRA: \lstset{basicstyle=\ttfamily\small,breaklines=true}
 
 # Responsável pela utilização de Times New Roman, com o tamanho normal
 # do texto, nas seções e subseções. Seções ainda têm seus nomes
 # mostrados em uppercase.
-#+LATEX_HEADER: \titleformat{\section}{\normalfont\normalsize\bfseries\uppercase}{}{0pt}{}
-#+LATEX_HEADER: \titleformat{\subsection}{\normalfont\normalsize\bfseries}{}{0pt}{\space}
-#+LATEX_HEADER: \titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{}{0pt}{\space}
-#+LATEX_HEADER: \titleformat{\paragraph}{\normalfont\normalsize\itshape}{}{0pt}{\theparagraph\space}
+#+LATEX_HEADER_EXTRA: \titleformat{\section}{\normalfont\normalsize\bfseries\uppercase}{}{0pt}{}
+#+LATEX_HEADER_EXTRA: \titleformat{\subsection}{\normalfont\normalsize\bfseries}{}{0pt}{\space}
+#+LATEX_HEADER_EXTRA: \titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{}{0pt}{\space}
+#+LATEX_HEADER_EXTRA: \titleformat{\paragraph}{\normalfont\normalsize\itshape}{}{0pt}{\theparagraph\space}
 
 
 
 # Outros dados do texto #
 
 # Espaçamento
-#+LATEX_HEADER: \setlength{\parindent}{1.5cm}
-#+LATEX_HEADER: \setlrmarginsandblock{3cm}{2cm}{*}
-#+LATEX_HEADER: \setulmarginsandblock{2.5cm}{2.5cm}{*}
-#+LATEX_HEADER: \checkandfixthelayout
-
-# Citações
-#+LATEX_HEADER: \renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
-#+LATEX_HEADER: \renewcommand{\backref}{}
-#+LATEX_HEADER: \renewcommand*{\backrefalt}[4]{}
-
-
+#+LATEX_HEADER_EXTRA: \setlength{\parindent}{1.5cm}
+#+LATEX_HEADER_EXTRA: \setlrmarginsandblock{3cm}{2cm}{*}
+#+LATEX_HEADER_EXTRA: \setulmarginsandblock{2.5cm}{2.5cm}{*}
+#+LATEX_HEADER_EXTRA: \checkandfixthelayout
 
 # Elementos de preâmbulo #
 
 # Índice
-#+LATEX_HEADER: \makeindex
+#+LATEX_HEADER_EXTRA: \makeindex

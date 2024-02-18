@@ -1,6 +1,7 @@
 #   abntex2-meta.org
 #   Parte do projeto org-abntex2.
 #   Copyright (c) 2019 Lucas Vieira.
+#   Copyright (c) 2024 Natanael Alves Fernandes.
 #   Este arquivo é provido sob a licença BSD 2-Clause (simplificada).
 #   Leia o arquivo LICENSE para mais informações.
 
@@ -10,11 +11,11 @@
 # ATENÇÃO: Altere estes campos a rigor. É imprescindível que não haja
 # quebras de linha aqui! Caso você precise quebrar linhas no
 # preâmbulo, use \par.
-#+LATEX_HEADER: \titulo{Exportando Org Mode para \LaTeX}
-#+LATEX_HEADER: \author{Lucas Vieira}
-#+LATEX_HEADER: \preambulo{Modelo de utilização da classe \abnTeX{} para Org Mode, do editor de texto Emacs.}
-#+LATEX_HEADER: \local{Diamantina}
-#+LATEX_HEADER: \instituicao{Universidade Federal dos Vales do Jequitinhonha e do Mucuri}
-#+LATEX_HEADER: \tipotrabalho{Artigo}
-#+LATEX_HEADER: \orientador{Fulano}
-#+LATEX_HEADER: \coorientador{Ciclano}
+#+LATEX_HEADER_EXTRA: \titulo{Exportando Org Mode para \LaTeX}
+#+LATEX_HEADER_EXTRA: \author{Lucas Vieira}
+#+LATEX_HEADER_EXTRA: \preambulo{Modelo de utilização da classe \abnTeX{} para Org Mode, do editor de texto Emacs.}
+#+LATEX_HEADER_EXTRA: \local{Diamantina}
+#+LATEX_HEADER_EXTRA: \instituicao{Universidade Federal dos Vales do Jequitinhonha e do Mucuri}
+#+LATEX_HEADER_EXTRA: \tipotrabalho{Artigo}
+#+LATEX_HEADER_EXTRA: \orientador{Fulano}
+#+LATEX_HEADER_EXTRA: \coorientador{Ciclano}

@@ -1,6 +1,7 @@
 #   abntex2-pretextual.org
 #   Parte do projeto org-abntex.
 #   Copyright (c) 2019 Lucas Vieira.
+#   Copyright (c) 2024 Natanael Alves Fernandes.
 #   Este arquivo é provido sob a licença BSD 2-Clause (simplificada).
 #   Leia o arquivo LICENSE para mais informações.
 
@@ -95,9 +96,13 @@ Abstract in English.
 \vspace{\onelineskip}
 
 # Lista de abreviaturas e siglas
+#+latex: \newcommand{\sigla}[3][]{\if\relax\detokenize{#1}\relax\item[#2]{#3.}\newacro{#2}{#3}\else\item[#2]{#3.}\newacro{#1}[#2]{#3}\fi}
+
 #+begin_siglas
-\item[Teste] Este é um teste.
-\item[LV]   Lucas Vieira.
+     \sigla{LV}{Lucas Vieira}
+     \sigla{NA}{Natanael Alves}
+     \sigla[ab]{ABNT}{Associação Brasileira de Normas Técnicas}
+     \sigla[uf]{UVFVJM}{Universidade Federal dos Vales do Jequitinhonha e Mucuri}
 #+end_siglas
 \vspace{\onelineskip}
 

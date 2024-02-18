@@ -1,21 +1,65 @@
 #   main.org
 #   Parte do projeto org-abntex2.
 #   Copyright (c) 2019 Lucas Vieira.
+#   Copyright (c) 2024 Natanael Alves Fernandes.
 #   Este arquivo é provido sob a licença BSD 2-Clause (simplificada).
 #   Leia o arquivo LICENSE para mais informações.
 
 
 
-#+TITLE:   Exportando Org Mode para \LaTeX{} com \abnTeX
+#+TITLE:   Exportando Org Mode para \LaTeX{} com \abnTeX{}
 #+AUTHOR:  Lucas Vieira
 #+EMAIL:   lucasvieira@protonmail.com
 #+DATE:    2019
 #+STARTUP: latexpreview
+#+OPTIONS: ':t
+#+BIBLIOGRAPHY: ./references.bib
+#+CITE_EXPORT: biblatex abnt
 
 # Inclua estes arquivos. Lembre-se de olhar o conteúdo deles.
 #+INCLUDE: abntex2.org             :only-contents t
 #+INCLUDE: abntex2-meta.org        :only-contents t
 #+INCLUDE: abntex2-pretextual.org  :only-contents t
+
+# O seguinte bloco de emacs-lisp executa configurações necessárias para a
+# exportação com sucesso desse arquivo, o bloco não é exportado como LaTeX. Há
+# mais um pedaço de código no rodapé desse arquivo que age em conjunto com esse
+# bloco para executá-lo automaticamente ao abrir o arquivo. *Por favor não
+# alterar esses blocos se não souber o que está fazendo*.
+
+# Caso o arquivo não compile, execute o bloco a seguir usando C-c C-c.
+
+#+NAME: startup
+#+BEGIN_SRC emacs-lisp :exports none :results none
+;; Registrando o comando apud como um estilo bibtex de citação
+(add-to-list 'org-cite-biblatex-styles
+             '("apud" nil "apud" "apud" nil))
+
+(add-to-list 'org-cite-biblatex-styles
+             '("textapud" nil "textapud" "textapud" nil))
+
+;; Registrando a classe abntex2
+(add-to-list 'org-latex-classes
+             '("abntex2"
+               "\\documentclass{abntex2}
+                [NO-DEFAULT-PACKAGES]
+                [EXTRA]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
+               ("\\maketitle" . "\\imprimircapa")))
+
+;; Adicionando aspas automáticas para a língua pt-br
+(add-to-list 'org-export-smart-quotes-alist
+             '("pt-br"
+               (primary-opening :utf-8 "“" :html "&ldquo;" :latex "``" :texinfo "``")
+               (primary-closing :utf-8 "”" :html "&rdquo;" :latex "''" :texinfo "''")
+               (secondary-opening :utf-8 "‘" :html "&lsquo;" :latex "`" :texinfo "`")
+               (secondary-closing :utf-8 "’" :html "&rsquo;" :latex "'" :texinfo "'")
+               (apostrophe :utf-8 "’" :html "&rsquo;")))
+#+END_SRC
 
 * Introdução
 
@@ -26,7 +70,7 @@ Org é um formato de documento de texto-plano para organização e
 escrita de documentos. Este formato de arquivo é extensível e feito
 para utilização em conjunto com o editor de textos Emacs. Ademais,
 este formato possibilita a exportação para diversos formatos, como
-HTML, PDF (via \LaTeX), Markdown, ASCII, e outros formatos através de
+HTML, PDF (via \LaTeX{}), Markdown, ASCII, e outros formatos através de
 extensões. Também é possível utilizar o formato Org para calendário,
 compromissos, listas de afazeres, /slides/, dentre outras coisas
 interessantes.
@@ -40,7 +84,7 @@ facilitados com o uso do Org Mode.
 
 É possível inserir equações /inline/ em Org, como colocaria-se em
 \LaTeX, utilizando esta mesma linguagem. Com auxílio da extensão
-=AUCTeX=, o Emacs poderá, inclusive, renderizar fórmulas no próprio
+AUC\TeX{}, o Emacs poderá, inclusive, renderizar fórmulas no próprio
 buffer, como uma representação no formato de imagem[fn:1].
 
 Como exemplo, temos a Equação [[eq:factorial]], representando uma função $f$
@@ -57,7 +101,9 @@ f(n) = \begin{cases}
 ** Citações
 
 Também é possível realizar citações com facilidade. Para tanto, você
-precisará da extensão =org-ref= configurada:
+precisará da extensão =org-ref= configurada, ou se estiver usando DOOM EMACS com
+os pacotes configurados como no [[file:README.org]], não precisa de configurações
+extras pois o pacote =citar= já deve estar habilitado [fn:2]:
 
 #+begin_citacao
 Among all disciplines mixing Art and Science, programming holds a
@@ -71,13 +117,13 @@ there is an inherent system of values in programming that relates more
 to Art than to Science [34]. But perhaps the most striking point in
 Knuth, Dijkstra, and Ershov’s arguments is that the artistic aspect of
 programming deals with such notions as elegance, aesthetics, beauty,
-style, pleasure, and emotion {2,3,4}. cite:verna2018
+style, pleasure, and emotion {2,3,4}. [cite:@verna2018]
 #+end_citacao
 
 ** Imagens
 
 Também podemos utilizar recursos extras de imagens. O exemplo abaixo
-foi gerado a partir de código feito para a ferramenta GraphViz. Veja
+foi gerado a partir de código feito para a ferramenta =GraphViz=. Veja
 que o código é compilado durante a exportação, gerando a figura
 =fib_quad.png=; esta, porém, é anexada ao documento logo em seguida, de
 forma independente, para que gere a Figura [[fig:fib-expand]].
@@ -137,13 +183,11 @@ graph {
 }
 #+end_src
 
-#+RESULTS:
-[[file:fib_quad.png]]
 
 
 #+CAPTION: Expansão da implementação de uma função para calcular o sexto número da sequência de Fibonacci, com recursão em árvore.
 #+NAME: fig:fib-expand
-[[file:fib_quad.png]]
+[[file:./fib_quad.png]]
 
 ** Tabelas
 
@@ -165,28 +209,61 @@ de tabela, portada diretamente do \LaTeX{} para Org.
 | Quick     |     61 |    750 |     7598 |
 |-----------+--------+--------+----------|
 
+Também é possível exportar tabelas com as configurações explícitas de
+alinhamento e margens, como observado na Tabela [[tab:vantagens]].
+
+#+ATTR_LATEX: :align l|p{4cm}|p{4cm}
+#+CAPTION: Vantagens e desvantagens de cada algoritmo.
+#+NAME: tab:vantagens
+|-----------+---------------------------------------------------------------------+-------------------------------------------------------------|
+| Método    | Vantagens                                                           | Desvantagens                                                |
+|-----------+---------------------------------------------------------------------+-------------------------------------------------------------|
+|-----------+---------------------------------------------------------------------+-------------------------------------------------------------|
+| Bubble    | Utilizado em aplicações com pequeno volume de dados.                | Quanto mais dados tem que processar, mais ineficiente fica. |
+|-----------+---------------------------------------------------------------------+-------------------------------------------------------------|
+| Selection | Mais rápido que bubble sort.                                        | Existem algoritmos melhores.                                |
+|-----------+---------------------------------------------------------------------+-------------------------------------------------------------|
+| Insertion | Bom para situações quando os dados estão quase ordenados.           | Uso limitado.                                               |
+|-----------+---------------------------------------------------------------------+-------------------------------------------------------------|
+| Merge     | Bom para listas exclusivamente sequenciais, como listas encadeadas. | Uso limitado.                                               |
+|-----------+---------------------------------------------------------------------+-------------------------------------------------------------|
+| Quick     | Bom para a maioria dos casos.                                       | Limitado por memória.                                       |
+|-----------+---------------------------------------------------------------------+-------------------------------------------------------------|
+
+** Siglas
+
+Por meio do pacote =acronym=, é possível criar e usar siglas automáticas. O pacote
+foi configurado em [[file:abntex2-pretextual.org]] para ser facilmente integrado na
+lista de siglas do \abnTeX{}. Exemplo de uso:
+
+#+begin_citacao
+Eu, \ac{NA} expandi o /template/ criado por \ac{LV} para org-mode compatível com
+as regras da \ac{ab}. Quando eu, \ac{NA}, referenciar as siglas \ac{LV} e
+\ac{ab} novamente, elas devem estar diferentes.
+#+end_citacao
+
+O comando para criar siglas novas é =\sigla{nome-curto}{nome-longo}=, e deve ser
+colocado diretamente na lista de siglas pré-textual. Para referenciar uma sigla,
+use o comando =\ac{nome-curto}=.
+
+O comando =sigla= toma opcionalmente um terceiro argumento que serve como a chave
+única para chamar a sigla, como por exemplo
+=\sigla[chave]{nome-curto}{nome-longo}=. Se a sigla for declarada dessa forma, ela
+deve ser referenciada com =\ac{chave}=.
+
+** Aspas automáticas
+
+Caso a opção =#+OPTIONS: ':t= esteja habilitada no cabeçalho de um arquivo org-mode, é possível o uso de "/smart quotes/" ou "aspas 'inteligentes'" sem ter que se importar com as ``aspas burras'' ou o pacote =csquotes= que normalmente são necessários em arquivos \LaTeX{}.
+
+Contudo, para que a opção =':t= funcione de forma correta, é necessário que a lingua do documento tenha uma variável com o formato de aspas configurado dentro do Emacs. Tal configuração está sendo feita automaticamente no bloco de =emacs-lisp= no topo desse arquivo.
+
 * Utilizando o /template/ para Org
 
 Este /template/ está sendo primariamente otimizado com as configurações
-para a Universidade Federal dos Vales do Jequitinhonha e Mucuri --
-UFVJM, uma vez que trata-se da instituição onde atualmente sou
+para a \ac{uf}, uma vez que trata-se da instituição onde atualmente sou
 discente. Dito isto, você deverá adaptar este /template/ para a sua
 instituição, baseado no que fiz; por isso, procurei deixá-lo com o
 máximo de clareza possível.
-
-** Dependências
-
-Você vai precisar das seguintes extensões para Emacs:
-
-- Uma distribuição \LaTeX{} de sua preferência. Recomento TeXStudio
-  para Linux, preferencialmente atualizada;
-- =org=, preferencialmente na versão *mais nova*, que pode ser instalada
-  pelo repositório oficial, como indicado no site da ferramenta;
-- =org-ref=, extensão para gerenciamento de bibliografia em Org Mode.
-
-Opcionalmente, você poderá utilizar:
-
-- =AUCTeX=, que provê ferramentas para edição de arquivos TeX no Emacs.
 
 ** Estrutura
 
@@ -200,7 +277,7 @@ Este template possui 5 arquivos principais:
 
 O arquivo =abntex2.org= contém a maior parte da especificação de um
 documento válido para \abnTeX{}. Este arquivo sozinho proverá o básico
-para exportar um documento comum segundo as normas da ABNT. Também
+para exportar um documento comum segundo as normas da \ac{ab}. Também
 estão inclusas configurações de fontes e uma redefinição para o pacote
 =hyperref= na exportação, substituindo temporariamente a definição
 padrão do Emacs. Edite este arquivo apenas para enquadrá-lo às normas
@@ -216,8 +293,8 @@ trabalho, com definições de capa, folha de rosto, resumos,
 dedicatória, e outros elementos. Você deverá alterá-lo e adicionar ou
 remover as seções que servirem-lhe.
 
-O arquivo =references.bib= é um arquivo BibTeX que enumera referências
-para exemplificar o uso de =org-ref= neste artigo.
+O arquivo =references.bib= é um arquivo Bib\TeX{} que enumera referências
+para exemplificar o uso de =org-ref/org-cite= neste artigo.
 
 A estrutura principal do projeto está em =main.org=. Este arquivo contém
 o texto deste artigo de demonstração, e poderá ser consultado ou
@@ -248,13 +325,56 @@ Como você pode ver, a melhor forma de utilizar os arquivos do template
 é incluindo seus conteúdos, na íntegra, no seu arquivo, durante o
 tempo de exportação.
 
-Para criar a sua bibliografia, provido que você tenha um arquivo como
-=references.bib= no diretório do projeto, inclua uma seção ao final
-contendo exatamente este texto:
+** Bibliografia
+
+*** Pacote Bib\LaTeX{}
+
+Usar o pacote Bib\LaTeX{} com a opção =style=abnt= pode ser uma alternativa mais leve e prática, dado que é possível uma integração maior com o pacote =citar= caso esteja usando-o.
+
+Por exemplo, é possível citar [cite/text:@verna2018] de diversas formas:
+- Citando de forma comum [cite:@verna2018]
+- Citando apenas o autor [cite/author:@verna2018]
+- Citando sem o autor [cite/noauthor:@verna2018]
+- Um apud [cite/apud:@10.1145/2089131.2089133 ;@verna2018;]
+- Um apud em linha, como [cite/textapud:@10.1145/2089131.2089133 ;@verna2018;]
+
+Para mais estilos de citação, leia a documentação da variável =org-cite-bibtex-styles=. Para usar Bib\LaTeX{}-=abnt=, coloque a linha =#+CITE_EXPORT: biblatex abnt= no topo desse arquivo. Ela já deve estar presente na forma original desse documento.
+
+No caso de =apuds=, para esconder uma citação da bibliografia, coloque a opção =skipbib=true= dentro do campo de opções da citação dentro do arquivo de referências. Por exemplo:
+
+#+begin_src bibtex
+@inproceedings{10.1145/2089131.2089133,
+  author          = {Adamczyk, Paul},
+  title           = {On the language metaphor},
+  year            = 2011,
+  isbn            = 9781450309417,
+  publisher       = {Association for Computing Machinery},
+  address         = {New York, NY, USA},
+  url             = {https://doi.org/10.1145/2089131.2089133},
+  doi             = {10.1145/2089131.2089133},
+  booktitle       = {Proceedings of the 10th SIGPLAN Symposium on New Ideas, New
+                  Paradigms, and Reflections on Programming and Software},
+  pages           = {121–128},
+  numpages        = 8,
+  keywords        = {computing, domain-specific, metaphor, programming
+                  languages},
+  location        = {Portland, Oregon, USA},
+  series          = {Onward! 2011},
+  options         = {skipbib=true}
+}
+#+end_src
+
+*** Pacote \abnTeX{}cite
+
+Caso deseje usar \abnTeX{}cite, remova a linha declarando Bib\LaTeX{}-=abnt= no topo desse arquivo e modifique [[file:abntex2.org]] para utilizar o pacote de citação correto.
+
+Para criar a sua bibliografia com \abnTeX{}cite, provido que você tenha um arquivo
+como =references.bib= no diretório do projeto, inclua uma seção ao final contendo
+exatamente este texto:
 
 #+begin_src org
 <<bibliography link>>
-bibliography:references.bib
+\bibliography{references.bib}
 #+end_src
 
 Não importa o tópico no qual a bibliografia estiver
@@ -266,17 +386,18 @@ terminou.
 ** Exportando o trabalho
 
 Você poderá exportar normalmente seu trabalho através do comando =C-c
-C-e l p= no Emacs. Isto criará um arquivo PDF automaticamente. Demais
-configurações poderão ser exploradas no próprio menu de exportação do
-Org Mode. Você só poderá exportar adequadamenteo o projeto se este
-comando for feito no arquivo principal do mesmo.
+C-e l p= no Emacs normal, ou =<space> m e l o= em DOOM Emacs. Isto criará um
+arquivo PDF automaticamente. Demais configurações poderão ser exploradas no
+próprio menu de exportação do Org Mode. Você só poderá exportar adequadamente o
+projeto se este comando for feito no arquivo principal do mesmo.
 
 * Bugs conhecidos
 
-- O preâmbulo incluído em =abntex2.org= pode ser transportado para o seu
+- +O preâmbulo incluído em =abntex2.org= pode ser transportado para o seu
   arquivo Org, porém isso irá desconfigurar a geração de equações, uma
   vez que o /template/ abusa da opção =#+LATEX_HEADER=. Este pode ser
-  também um efeito indesejado do =AUCTeX=.
+  também um efeito indesejado do =AUCTeX=.+
+  - Esse bug pode ser corrigido ao usar =#+LATEX_HEADER_EXTRA= no lugar de =#+LATEX_HEADER= em pacotes que não são essenciais para ambientes matemáticos; essa opção existe explicitamente para não entrar em conflito com a geração de equações em =org-mode=.
 
 * Licenciamento e Uso
 
@@ -293,12 +414,22 @@ a licença e com esta nota sobre licenciamento.
 # Bibliografia
 \postextual
 <<bibliography link>>
-bibliography:references.bib
+#+print_bibliography:
 
 * Footnotes
+[fn:2] Tome cuidado com forma que as citações são formatadas dentro do org-mode,
+pois =citar= e =org-ref= possuem sintaxes um pouco diferentes. Leia a documentação
+dos dois pacotes para saber mais.
 
 [fn:1] Para que a equação seja vista no Emacs, basta repousar o cursor
 sobre o código da equação e usar a sequência de atalhos =C-c C-x
 C-l=. Para assegurar-se de que as visualizações serão geradas ao abrir
 o buffer, adicione a linha =#+STARTUP: latexpreview= ao início do
 arquivo.
+
+# Código para executar configurações automáticas ao abrir o arquivo
+
+# Local Variables:
+# eval: (setq org-export-allow-bind-keywords t)
+# eval: (progn (org-babel-goto-named-src-block "startup") (org-babel-execute-src-block))
+# End:
