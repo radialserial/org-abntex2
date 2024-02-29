@@ -340,9 +340,9 @@ Por exemplo, é possível citar [cite/text:@verna2018] de diversas formas:
 
 Para mais estilos de citação, leia a documentação da variável =org-cite-bibtex-styles=. Para usar Bib\LaTeX{}-=abnt=, coloque a linha =#+CITE_EXPORT: biblatex abnt= no topo desse arquivo. Ela já deve estar presente na forma original desse documento.
 
-No caso de =apuds=, para esconder uma citação da bibliografia, coloque a opção =skipbib=true= dentro do campo de opções da citação dentro do arquivo de referências. Por exemplo:
+No caso de =apuds=, para esconder uma citação da bibliografia, coloque a opção =skipbib=true= dentro do campo de opções da citação dentro do arquivo de referências. Por exemplo, na linha [[(bib)]]:
 
-#+begin_src bibtex
+#+begin_src bibtex -n -r
 @inproceedings{10.1145/2089131.2089133,
   author          = {Adamczyk, Paul},
   title           = {On the language metaphor},
@@ -360,7 +360,7 @@ No caso de =apuds=, para esconder uma citação da bibliografia, coloque a opç�
                   languages},
   location        = {Portland, Oregon, USA},
   series          = {Onward! 2011},
-  options         = {skipbib=true}
+  options         = {skipbib=true}  (ref:bib)
 }
 #+end_src
 
