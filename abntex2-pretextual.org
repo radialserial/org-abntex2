@@ -96,7 +96,7 @@ Abstract in English.
 \vspace{\onelineskip}
 
 # Lista de abreviaturas e siglas
-#+latex: \newcommand{\sigla}[3][]{\if\relax\detokenize{#1}\relax\item[#2]{#3.}\newacro{#2}{#3}\else\item[#2]{#3.}\newacro{#1}[#2]{#3}\fi}
+#+latex: \newcommand{\sigla}[3][]{\if\relax\detokenize{#1}\relax\item[#2]{#3.}\acrodef{#2}{#3}\else\item[#2]{#3.}\acrodef{#1}[#2]{#3}\fi}
 
 #+begin_siglas
      \sigla{LV}{Lucas Vieira}
@@ -104,6 +104,9 @@ Abstract in English.
      \sigla[ab]{ABNT}{Associação Brasileira de Normas Técnicas}
      \sigla[uf]{UVFVJM}{Universidade Federal dos Vales do Jequitinhonha e Mucuri}
 #+end_siglas
+
+\acrodefplural{ab}[ABNT]{Associações Brasileiras de Normas Técnicas}
+
 \vspace{\onelineskip}
 
 # Lista de simbolos

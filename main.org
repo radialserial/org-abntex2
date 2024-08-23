@@ -244,12 +244,15 @@ as regras da \ac{ab}. Quando eu, \ac{NA}, referenciar as siglas \ac{LV} e
 
 O comando para criar siglas novas é =\sigla{nome-curto}{nome-longo}=, e deve ser
 colocado diretamente na lista de siglas pré-textual. Para referenciar uma sigla,
-use o comando =\ac{nome-curto}=.
+use o comando =\ac{nome-curto}= ou suas variações (recomendo consultar o manual do
+pacote =acronym=).
 
 O comando =sigla= toma opcionalmente um terceiro argumento que serve como a chave
 única para chamar a sigla, como por exemplo
 =\sigla[chave]{nome-curto}{nome-longo}=. Se a sigla for declarada dessa forma, ela
 deve ser referenciada com =\ac{chave}=.
+
+Também é possível referenciar siglas de forma plural ao usar =\acp{chave}=. Contudo, o pacote =acronym= tentará "adivinhar" a forma plural da sigla (geralmente em um formato que só faz sentido em inglês). Portanto, também é possível declarar a forma plural da sigla explicitamente usando =\acrodefplural{chave}[plural-abreviado]{plural-longo}=. Um exemplo dessa funcionalidade é: O plural de \acf{ab} é \acfp{ab}.
 
 ** Aspas automáticas
 
