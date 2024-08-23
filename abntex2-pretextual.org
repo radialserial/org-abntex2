@@ -74,8 +74,8 @@ Resumo em Português.
 *Palavras-chave:* latex, abntex, editoração de texto, org, emacs.
 #+end_resumo
 
+#+ATTR_LATEX: :options [abstract]
 #+begin_resumo
-[Abstract]
 Abstract in English.
 \vspace{\onelineskip}
 
