@@ -47,7 +47,7 @@
 #+LATEX_HEADER_EXTRA: \usepackage{titlesec}
 #+LATEX_HEADER_EXTRA: \usepackage{hyperref}
 # #+LATEX_HEADER: \usepackage[alf,abnt-emphasize=bf,abnt-doi=link]{abntex2cite}
-#+LATEX_HEADER_EXTRA: \usepackage[backref=true,citecount=true,sorting=none,urldate=iso]{biblatex}
+#+LATEX_HEADER_EXTRA: \usepackage[extrayear,repeatfields,backref=true,citecount=true]{biblatex}
 #+LATEX_HEADER_EXTRA: \usepackage{indentfirst}
 #+LATEX_HEADER_EXTRA: \usepackage{listings}
 #+LATEX_HEADER_EXTRA: \usepackage{graphicx}
