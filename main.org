@@ -230,6 +230,43 @@ alinhamento e margens, como observado na Tabela [[tab:vantagens]].
 | Quick     | Bom para a maioria dos casos.                                       | Limitado por memória.                                       |
 |-----------+---------------------------------------------------------------------+-------------------------------------------------------------|
 
+** Listings
+Blocos de código de diversas linguagens podem ser exportados em \LaTeX{}:
+
+#+begin_src java
+public static void main(String[] args){
+    System.out.println("Olá mundo")!
+}
+#+end_src
+
+Para listar os números das linhas, adicione a opção =-n=:
+
+#+begin_src java -n
+public static void main(String[] args){
+    System.out.println("Olá mundo")!
+}
+#+end_src
+
+Para referenciar uma linha do código, use as opções =-r -n= e coloque um /label/ no
+código no formato =(ref:nome_do_label)=. Para referenciar o /label/, o formato é
+=[[(nome_do_label)]]=. Por exemplo, a linha [[(psvm)]] é a declaração do
+método /main/ de alguma classe.
+
+#+begin_src java -n -r
+public static void main(String[] args){ (ref:psvm)
+    System.out.println("Olá mundo")!
+}
+#+end_src
+
+Por fim, é uma boa ideia consultar a documentação da mudança do /backend/ de
+exportação dos blocos de códigos para \LaTeX{}, pois é possível melhorar a
+formatação e adicionar cores, além de possibilitar o uso de /labels/ e /captions/,
+como pode ser observado na Figura [[fig:list-eng]].
+
+#+CAPTION: Exemplo de bloco de código exportado usando as opções =-r -n= pelo /backend/ "Engraved".
+#+NAME: fig:list-eng
+file:./list-eng.png
+
 ** Siglas
 
 Por meio do pacote =acronym=, é possível criar e usar siglas automáticas. O pacote
